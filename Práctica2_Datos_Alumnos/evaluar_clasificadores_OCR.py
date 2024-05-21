@@ -3,11 +3,42 @@
 
 import argparse
 
-import panel_det
+#import panel_det
 import matplotlib.pyplot as plt
 import cv2
 import numpy as np
-import sklearn
+import sklearn.metrics
+import os
+from lda_normal_bayes_classifier import LdaNormalBayesClassifier
+
+def load_images_from_folder(folder):
+    # Returns a dictionary where keys are class labels and values are lists of images.
+    images_dict = {}
+    for label in os.listdir(folder):
+        label_folder = os.path.join(folder, label)
+        if os.path.isdir(label_folder):
+            # Check if it is a folder of numbers
+            if label.isdigit():
+                images = []
+                for filename in os.listdir(label_folder):
+                    img_path = os.path.join(label_folder, filename)
+                    img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+                    if img is not None:
+                        images.append(img)
+                images_dict[label] = images
+            # Check if it is a folder of letters (Mayusculas or minusculas)
+            else:
+                for sublabel in os.listdir(label_folder):
+                    sublabel_folder = os.path.join(label_folder, sublabel)
+                    if os.path.isdir(sublabel_folder):
+                        images = []
+                        for filename in os.listdir(sublabel_folder):
+                            img_path = os.path.join(sublabel_folder, filename)
+                            img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+                            if img is not None:
+                                images.append(img)
+                        images_dict[sublabel] = images
+    return images_dict
 
 def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.get_cmap('Blues')):
     '''
@@ -33,11 +64,18 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.get_cmap('Bl
                         verticalalignment='center')
 
 if __name__ == "__main__":
+    
+    # Obtener la ruta del script actual
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Construir las rutas relativas a partir del directorio del script
+    default_train_path = os.path.join(current_dir, "train_ocr")
+    default_validation_path = os.path.join(current_dir, "validation_ocr")
 
     parser = argparse.ArgumentParser(
         description='Trains and executes a given classifier for OCR over testing images')
     parser.add_argument(
-        '--classifier', type=str, default="", help='Classifier string name')
+        '--classifier', type=str, default="lda_normal_bayes", help='Classifier string name')
     parser.add_argument(
         '--train_path', default="./train_ocr", help='Select the training data dir')
     parser.add_argument(
@@ -46,22 +84,43 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
 
-    # 1) Cargar las imágenes de entrenamiento y sus etiquetas. 
-    # También habrá que extraer los vectores de características asociados (en la parte básica 
-    # umbralizar imágenes, pasar findContours y luego redimensionar)
+    # Load training data
+    print("Loading training data...")
+    train_images_dict = load_images_from_folder(args.train_path)
 
-    # 2) Load training and validation data
-    # También habrá que extraer los vectores de características asociados (en la parte básica 
-    # umbralizar imágenes, pasar findContours y luego redimensionar)
-    gt_labels = ...
+    # Load validation data
+    print("Loading validation data...")
+    validation_images_dict = load_images_from_folder(args.validation_path)
+    
+    # Prepare validation data in the same format
+    gt_labels = []
+    predicted_labels = []
 
+    # Initialize classifier
+    ocr_char_size = 25 * 25  # Assuming fixed size 25x25 pixels
+    if args.classifier == "lda_normal_bayes":
+        classifier = LdaNormalBayesClassifier(ocr_char_size)
+    else:
+        raise ValueError("Unknown classifier type: {}".format(args.classifier))
 
-    # 3) Entrenar clasificador
+    # Train classifier
+    print("Training classifier...")
+    classifier.train(train_images_dict)
 
-    # 4) Ejecutar el clasificador sobre los datos de validación
-    predicted_labels = ...
+    # Validate classifier
+    print("Validating classifier...")
+    for label, images in validation_images_dict.items():
+        for img in images:
+            gt_labels.append(ord(label[0]))
+            predicted_label = classifier.predict(img)
+            predicted_labels.append(predicted_label)
 
-    # 5) Evaluar los resultados
+    # Evaluate results
     accuracy = sklearn.metrics.accuracy_score(gt_labels, predicted_labels)
     print("Accuracy = ", accuracy)
+
+    # Plot confusion matrix
+    cm = sklearn.metrics.confusion_matrix(gt_labels, predicted_labels)
+    plot_confusion_matrix(cm)
+    plt.show()
 
