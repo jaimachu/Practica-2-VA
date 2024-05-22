@@ -64,25 +64,28 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.get_cmap('Bl
                         verticalalignment='center')
 
 if __name__ == "__main__":
-    
-    # Obtener la ruta del script actual
-    current_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Construir las rutas relativas a partir del directorio del script
-    default_train_path = os.path.join(current_dir, "train_ocr")
-    default_validation_path = os.path.join(current_dir, "validation_ocr")
+    while(True):
+        print("\nMenu de clasificadores:")
+        print("1.- LDA Normal Bayes\n")
+
+        option = input("Seleccione el numero de un clasificador: ")
+        if option == '1': 
+            clasiffier = "lda_normal_bayes"
+            break
+        else: 
+            print("\nElija una de las opciones disponibles\n")
 
     parser = argparse.ArgumentParser(
         description='Trains and executes a given classifier for OCR over testing images')
     parser.add_argument(
-        '--classifier', type=str, default="lda_normal_bayes", help='Classifier string name')
+        '--classifier', type=str, default=clasiffier, help='Classifier string name')
     parser.add_argument(
         '--train_path', default="./train_ocr", help='Select the training data dir')
     parser.add_argument(
         '--validation_path', default="./validation_ocr", help='Select the validation data dir')
 
     args = parser.parse_args()
-
 
     # Load training data
     print("Loading training data...")

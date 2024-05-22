@@ -35,21 +35,18 @@ class LdaNormalBayesClassifier(OCRClassifier):
         # Extract features from each image and its corresponding label
         for char, images in images_dict.items():
             for img in images:
-                # Preprocess the image (e.g., thresholding, resizing)
                 processed_img = self.preprocess_image(img)
 
-                # Extract features from the image
                 features = self.extract_features(processed_img)
 
                 # Append features and label to X and y
                 X.append(features)
                 y.append(ord(char[0]))
 
-        # Convert lists to numpy arrays
         X = np.array(X)
         y = np.array(y)
 
-        # Perform LDA training
+        # Perform LDA training, 
         self.lda = LinearDiscriminantAnalysis()
         X_reduced = self.lda.fit_transform(X, y)
 
@@ -112,5 +109,4 @@ class LdaNormalBayesClassifier(OCRClassifier):
         :img Input image
         """
 
-        # Flatten the image to create a feature vector
         return img.flatten()
