@@ -1,12 +1,12 @@
 # @brief OCRClassifier
 
-
+from abc import ABC, abstractmethod
 import string
 import cv2
 import numpy as np
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
-class OCRClassifier:
+class OCRClassifier(ABC):
     """
     Classifier for Optical Character Recognition
     """
@@ -15,7 +15,9 @@ class OCRClassifier:
         self.ocr_char_size = ocr_char_size
         self.classifier_name = None
 
-
+        self.lda = None
+        self.classifier = None
+        
     def char2label(self, c):
         all_chars = '0123456789' + string.ascii_letters
         return all_chars.find(c)+1
@@ -67,20 +69,20 @@ class OCRClassifier:
         img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_AREA)
 
         return img
-    
+
     def predict_dict(self, images_dict):
         responses = []
         for key in images_dict:
             for img in images_dict[key]:
                 responses.append(self.predict(img))
         return responses
-    
+
     def predict(self, img):
         """.
         Given a single image of a character already cropped classify it.
 
         :img Image to classify
-        
+
         """
         # Preprocess the image
         processed_img = self.preprocess_image(img)
@@ -89,12 +91,14 @@ class OCRClassifier:
         features = self.extract_features(processed_img)
 
         # Reduce the features using LDA
-        features_reduced = self.lda.transform([features])
+        self.features_reduced = self.lda.transform([features])
 
         # Use the trained classifier to predict the label
-        _, predicted_label = self.classifier.predict(features_reduced.astype(np.float32))
-
-        return int(predicted_label[0, 0])
+        return self.predicting()
+    
+    @abstractmethod
+    def predicting(self):
+        None
 
     def train(self, images_dict):
         """.
@@ -106,8 +110,8 @@ class OCRClassifier:
         """
 
         # Initialize lists to store features and labels
-        X = []
-        y = []
+        self.X = []
+        self.y = []
 
         # Extract features from each image and its corresponding label
         for char, images in images_dict.items():
@@ -119,19 +123,20 @@ class OCRClassifier:
                 features = self.extract_features(processed_img)
 
                 # Append features and label to X and y
-                X.append(features)
-                y.append(ord(char[0]))
+                self.X.append(features)
+                self.y.append(ord(char[0]))
 
         # Convert lists to numpy arrays
-        X = np.array(X)
-        y = np.array(y)
+        self.X = np.array(self.X)
+        self.y = np.array(self.y)
 
         # Perform LDA training
         self.lda = LinearDiscriminantAnalysis()
-        X_reduced = self.lda.fit_transform(X, y)
+        self.X_reduced = self.lda.fit_transform(self.X, self.y)
 
-        # Train the classifier with the reduced features
-        self.classifier = cv2.ml.NormalBayesClassifier_create()
-        self.classifier.train(X_reduced.astype(np.float32), cv2.ml.ROW_SAMPLE, y.astype(np.int32))
+        # Train the classifier with the reduced features)
+        self.training()
 
-        return X, y
+    @abstractmethod
+    def training(self):
+        None
