@@ -11,6 +11,7 @@ import sklearn.metrics
 import os
 from lda_normal_bayes_classifier import LdaNormalBayesClassifier
 from KNNClassifier import KNNClassifier
+from lda_normal_hog_bayes_classifier import LdaNormalHogBayesClassifier
 
 def load_images_from_folder(folder):
     # Returns a dictionary where keys are class labels and values are lists of images.
@@ -68,14 +69,18 @@ if __name__ == "__main__":
 
     while(True):
         print("\nMenu de clasificadores:")
-        print("1.- LDA Normal Bayes\n")
-        print("2.- LDA KNN\n")
+        print("1.- LDA Normal Bayes")
+        print("2.- LDA Normal Bayes extract features with Hog")
+        print("3.- LDA KNN\n")
 
         option = input("Seleccione el numero de un clasificador: ")
         if option == '1': 
             clasiffier = "lda_normal_bayes"
             break
         if option == '2':
+            clasiffier = "lda_normal_hog"
+            break
+        if option == '3':
             clasiffier = "lda_KNN"
             break
         else: 
@@ -108,6 +113,8 @@ if __name__ == "__main__":
     ocr_char_size = 25 * 25  # Assuming fixed size 25x25 pixels
     if args.classifier == "lda_normal_bayes":
         classifier = LdaNormalBayesClassifier(ocr_char_size)
+    elif args.classifier == "lda_normal_hog":
+        classifier = LdaNormalHogBayesClassifier(ocr_char_size)
     elif args.classifier == "lda_KNN":
         classifier = KNNClassifier(ocr_char_size)
     else:
@@ -125,8 +132,6 @@ if __name__ == "__main__":
             gt_labels.append(ord(label[0]))
             predicted_label = classifier.predict(img)
             predicted_labels.append(predicted_label)
-        print(i)
-        i = i+1
     # Evaluate results
     accuracy = sklearn.metrics.accuracy_score(gt_labels, predicted_labels)
     print("Accuracy = ", accuracy)

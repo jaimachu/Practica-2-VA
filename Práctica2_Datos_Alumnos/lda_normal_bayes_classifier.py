@@ -14,7 +14,6 @@ class LdaNormalBayesClassifier(OCRClassifier):
 
     def __init__(self, ocr_char_size):
         super().__init__(ocr_char_size)
-        
 
     def training(self):
         self.classifier = cv2.ml.NormalBayesClassifier_create()
