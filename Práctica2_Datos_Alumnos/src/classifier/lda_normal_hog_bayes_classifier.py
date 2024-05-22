@@ -2,7 +2,7 @@
 
 import cv2
 import numpy as np
-from lda_normal_bayes_classifier import LdaNormalBayesClassifier
+from classifier.lda_normal_bayes_classifier import LdaNormalBayesClassifier
 
 class LdaNormalHogBayesClassifier(LdaNormalBayesClassifier):
 

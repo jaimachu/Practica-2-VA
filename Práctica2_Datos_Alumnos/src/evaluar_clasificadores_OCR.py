@@ -1,17 +1,14 @@
 # Asignatura de Visión Artificial (URJC). Script de evaluación.
-
-
 import argparse
-
-#import panel_det
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 import cv2
 import numpy as np
 import sklearn.metrics
 import os
-from lda_normal_bayes_classifier import LdaNormalBayesClassifier
-from KNNClassifier import KNNClassifier
-from lda_normal_hog_bayes_classifier import LdaNormalHogBayesClassifier
+from classifier.lda_normal_hog_bayes_classifier import LdaNormalHogBayesClassifier
+from classifier.lda_normal_bayes_classifier import LdaNormalBayesClassifier
+from classifier.knn_classifier import KNNClassifier
 
 def load_images_from_folder(folder):
     # Returns a dictionary where keys are class labels and values are lists of images.
@@ -124,14 +121,18 @@ if __name__ == "__main__":
     print("Training classifier...")
     classifier.train(train_images_dict)
 
+
     # Validate classifier
     print("Validating classifier...")
-    i = 0
-    for label, images in validation_images_dict.items():
-        for img in images:
-            gt_labels.append(ord(label[0]))
-            predicted_label = classifier.predict(img)
-            predicted_labels.append(predicted_label)
+    total_images = sum(len(images) for images in validation_images_dict.values())
+    with tqdm(total=total_images, desc="Procesando imágenes de validación") as pbar:
+        for label, images in validation_images_dict.items():
+            for img in images:
+                gt_labels.append(ord(label[0]))
+                predicted_label = classifier.predict(img)
+                predicted_labels.append(predicted_label)
+                pbar.update(1) 
+
     # Evaluate results
     accuracy = sklearn.metrics.accuracy_score(gt_labels, predicted_labels)
     print("Accuracy = ", accuracy)
