@@ -1,7 +1,7 @@
 import cv2
 from sklearn.neighbors import KNeighborsClassifier
 
-from ocr_classifier import OCRClassifier
+from classifier.ocr_classifier import OCRClassifier
 
 class KNNClassifier(OCRClassifier):
     def __init__(self, ocr_char_size=(25, 25), n_neighbors=3):

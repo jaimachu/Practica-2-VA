@@ -5,7 +5,7 @@
 # propuesto en el Ejercicio1 de la práctica. Habrá que terminarla
 import cv2
 import numpy as np
-from ocr_classifier import OCRClassifier
+from classifier.ocr_classifier import OCRClassifier
 
 class LdaNormalBayesClassifier(OCRClassifier):
     """
