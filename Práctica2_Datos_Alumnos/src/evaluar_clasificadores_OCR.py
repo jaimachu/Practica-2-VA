@@ -9,6 +9,7 @@ import os
 from classifier.lda_normal_hog_bayes_classifier import LdaNormalHogBayesClassifier
 from classifier.lda_normal_bayes_classifier import LdaNormalBayesClassifier
 from classifier.knn_classifier import KNNClassifier
+from detector.main_panels_ocr import MainPanelsOCR
 
 def load_images_from_folder(folder):
     # Returns a dictionary where keys are class labels and values are lists of images.
@@ -142,3 +143,34 @@ if __name__ == "__main__":
     plot_confusion_matrix(cm)
     plt.show()
 
+    # Mapeamos los numeros por su letra
+    map = {}
+    count = 0
+    for number in os.listdir("train_ocr/"):
+        number = os.path.basename(os.path.normpath("train_ocr/"+number))
+        if (len(number) == 1):
+            map[count] = number
+            count = count + 1
+        else:
+            for number in os.listdir("train_ocr/"+number+"/"):
+                map[count] = number
+                count = count + 1
+
+    # Detect characters in the pannels
+    pannelsDetector = MainPanelsOCR()
+    clusterRectangles, clusterCenters = pannelsDetector.obtainRegionsDetected("test_ocr_panels/00064_0.png")
+    img = cv2.imread("test_ocr_panels/00064_0.png")
+    img2 = cv2.imread("train_ocr/minusculas/a/0000.png")
+    clas = chr(classifier.predict(img2))
+    clases = []
+    labels = []
+    for i, cluster in enumerate(clusterRectangles):
+        for j, rectangle in enumerate(cluster):
+            x, y, w, h = rectangle
+            imgChar = img[y:y+h, x:x+w]
+            label = chr(classifier.predict(imgChar))
+            point = clusterCenters[i][j]
+            point[0] = point[0] - 10
+            point[1] = point[1] - 10
+            labels.append((label, point))
+    pannelsDetector.drawCharsDetected(labels, img)

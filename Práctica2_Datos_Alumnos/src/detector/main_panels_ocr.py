@@ -16,10 +16,11 @@ class MainPanelsOCR:
         rectanglesDetected = self.mser(imageContours)
         centers = self.computeCenters(rectanglesDetected)
         rectanglesDetected, centers = self.eliminateDuplicatedRectangles(rectanglesDetected, centers)
-        clusterCenters = self.groupCenters(centers) # Conjuntos de puntos que pertencen a cada linea
+        clusterCenters, clusterRectangles = self.groupCenters(centers, rectanglesDetected) # Conjuntos de puntos que pertencen a cada linea
+        clusterRectangles = self.increaseCoordsRectangles(clusterRectangles)
         lines = self.getLines(clusterCenters, image)
         self.drawDetection(pathImagen, clusterCenters, rectanglesDetected, lines)
-        return rectanglesDetected, clusterCenters
+        return clusterRectangles, clusterCenters
 
 
     """
@@ -115,9 +116,11 @@ class MainPanelsOCR:
     """
     Agrupamos cada caracter con su conjunto de palabras de la linea
     """
-    def groupCenters(self, points, min_samples=2, residual_threshold=10):
-        lines = []
+    def groupCenters(self, points, squares, min_samples=2, residual_threshold=10):
+        linesCenters = []
+        linesRectangles = []
         remaining_points = points.copy()
+        remaining_Squares = squares.copy()
         
         while len(remaining_points) >= min_samples:
             X = np.array([p[0] for p in remaining_points]).reshape(-1, 1)
@@ -130,13 +133,27 @@ class MainPanelsOCR:
             outliers_mask = np.logical_not(inliers_mask)
             
             # Store the inliers as a line
-            inliers = [remaining_points[i] for i in range(len(remaining_points)) if inliers_mask[i]]
-            lines.append(inliers)
-            
+            inlinersCenters = []
+            inlinersSquares = []
+            for i in range(len(remaining_points)):
+                if inliers_mask[i]:
+                    inlinersCenters.append(remaining_points[i])
+                    inlinersSquares.append(remaining_Squares[i])
+
+            linesCenters.append(inlinersCenters)
+            linesRectangles.append(inlinersSquares)
+
             # Update remaining points to outliers only
-            remaining_points = [remaining_points[i] for i in range(len(remaining_points)) if outliers_mask[i]]
-        return lines
-    
+            filteredPoints = []
+            filteredRectangles = []
+            for i in range(len(remaining_points)):
+                if outliers_mask[i]:
+                    filteredPoints.append(remaining_points[i])
+                    filteredRectangles.append(remaining_Squares[i])
+            remaining_points = filteredPoints
+            remaining_Squares = filteredRectangles
+        return linesCenters, linesRectangles
+
     """
     Traza las líneas de cada conjunto de puntos
     """
@@ -161,6 +178,25 @@ class MainPanelsOCR:
         return lines
     
     """
+    Aumentamos unos cuantos píxeles las regiones detectadas para facilitar la detección
+    """
+    def increaseCoordsRectangles(self, clusterRectangles):
+        clusterRectanglesIncreased = []
+        for cluster in clusterRectangles:
+            clusterIncreased = []
+            for rectangle in cluster:
+                x, y, w, h = rectangle
+                x = x-5
+                y = y-5
+                w = w+10
+                h = h+10
+                newRectangle = (x,y,w,h)
+                clusterIncreased.append(newRectangle)
+            clusterRectanglesIncreased.append(clusterIncreased)
+        return clusterRectanglesIncreased
+
+
+    """
     Dibuja las líneas, los recuadros y puntos detectados
     """
     def drawDetection(self, pathImage, clusterPoints, rectangles, lines):
@@ -181,3 +217,14 @@ class MainPanelsOCR:
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
+    """
+    Dibuja los caracteres detectados
+    """
+    def drawCharsDetected(self, detections, img):
+        for detection in detections:
+            character = detection[0]
+            point = detection[1]
+            imagen_con_texto = cv2.putText(img, character, point, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        cv2.imshow("Centros detectados", img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()

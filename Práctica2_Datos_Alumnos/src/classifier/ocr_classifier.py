@@ -61,9 +61,14 @@ class OCRClassifier(ABC):
 
         # Find contours and get the bounding box
         contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        imageContours = np.zeros_like(img) # Cargamos una imagen en negro donde vamos a dibujar los contornos
+        cv2.drawContours(imageContours, contours, -1, (255, 255, 255), 1)
+        """
         if contours:
             x, y, w, h = cv2.boundingRect(contours[0])
             img = img[y:y+h, x:x+w]
+        """
 
         # Resize to a fixed size (25x25 pixels)
         img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_AREA)
