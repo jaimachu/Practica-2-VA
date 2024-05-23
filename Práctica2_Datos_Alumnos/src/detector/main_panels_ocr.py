@@ -20,8 +20,8 @@ class MainPanelsOCR:
         clusterRectangles = self.increaseCoordsRectangles(clusterRectangles) # Aumentamos el tamaño de la ventana del rectangulo
         clusterCenters, clusterRectangles = self.reorderRectangles(clusterRectangles, clusterCenters) # Reordenamos los rectangulos para que se puedan leer de arriba-abajo, izquierda-derecha
         lines = self.getLines(clusterCenters, image)
-        self.drawDetection(pathImagen, clusterCenters, rectanglesDetected, lines)
-        return clusterRectangles, clusterCenters
+        #self.drawDetection(pathImagen, clusterCenters, rectanglesDetected, lines)
+        return clusterRectangles, clusterCenters, lines
 
 
     """
@@ -187,8 +187,8 @@ class MainPanelsOCR:
             clusterIncreased = []
             for rectangle in cluster:
                 x, y, w, h = rectangle
-                x = x-5
-                y = y-5
+                if (x-5) >= 0: x = x-5
+                if (y-5) >= 0: y = y-5
                 w = w+10
                 h = h+10
                 newRectangle = (x,y,w,h)
@@ -239,23 +239,25 @@ class MainPanelsOCR:
     """
     Dibuja las líneas, los recuadros y puntos detectados
     """
-    def drawDetection(self, pathImage, clusterPoints, rectangles, lines):
+    def drawDetection(self, pathImage, clusterPoints, clusterRectangles, lines):
         image = cv2.imread(pathImage)
         for cluster in clusterPoints:
             color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
             for center in cluster:
                 cv2.circle(image, (center[0], center[1]), radius=1, color=color, thickness=2)
-        for rectangle in rectangles:
-            x, y, w, h = rectangle
-            cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 1)
+        for cluster in clusterRectangles:
+            for rectangle in cluster:
+                x, y, w, h = rectangle
+                cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 1)
         for line in lines:
             color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
             start_point = line[0]
             end_point = line[1]
             cv2.line(image, start_point, end_point, color=color, thickness=2)
-        cv2.imshow("Centros detectados", image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        return image
+        #cv2.imshow("Centros detectados", image)
+        #cv2.waitKey(0)
+        #cv2.destroyAllWindows()
 
     """
     Dibuja los caracteres detectados
