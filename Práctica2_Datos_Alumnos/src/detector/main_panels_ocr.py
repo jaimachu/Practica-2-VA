@@ -12,12 +12,13 @@ class MainPanelsOCR:
     """
     def obtainRegionsDetected(self, pathImagen):
         image = cv2.imread(pathImagen, 0)
-        imageContours = self.umbraliceImage(pathImagen)
-        rectanglesDetected = self.mser(imageContours)
-        centers = self.computeCenters(rectanglesDetected)
-        rectanglesDetected, centers = self.eliminateDuplicatedRectangles(rectanglesDetected, centers)
+        imageContours = self.umbraliceImage(pathImagen) # Umbralizamos la imagen
+        rectanglesDetected = self.mser(imageContours) # Detectamos regiones con MSER
+        centers = self.computeCenters(rectanglesDetected) # Calculamos los centros de las regiones
+        rectanglesDetected, centers = self.eliminateDuplicatedRectangles(rectanglesDetected, centers) # Eliminamos puntos que pueden estar duplicados
         clusterCenters, clusterRectangles = self.groupCenters(centers, rectanglesDetected) # Conjuntos de puntos que pertencen a cada linea
-        clusterRectangles = self.increaseCoordsRectangles(clusterRectangles)
+        clusterRectangles = self.increaseCoordsRectangles(clusterRectangles) # Aumentamos el tamaño de la ventana del rectangulo
+        clusterCenters, clusterRectangles = self.reorderRectangles(clusterRectangles, clusterCenters) # Reordenamos los rectangulos para que se puedan leer de arriba-abajo, izquierda-derecha
         lines = self.getLines(clusterCenters, image)
         self.drawDetection(pathImagen, clusterCenters, rectanglesDetected, lines)
         return clusterRectangles, clusterCenters
@@ -195,6 +196,45 @@ class MainPanelsOCR:
             clusterRectanglesIncreased.append(clusterIncreased)
         return clusterRectanglesIncreased
 
+    """
+    Reordenar los paneles para que estén de forma de arriba a abajo y de izquierda a derecha
+    """
+    def reorderRectangles(self, clusterRectangles, clusterPoints):
+        # Reordenamos primero los puntos de arriba a abajo en funcion del valor del eje y. A menor valor, más arriba está
+        reorderedRectangles = []
+        reorderedPoints = []
+        meansPoints = []
+        meansRectangles = []
+        for i, cluster in enumerate(clusterPoints):
+            XPoints = []
+            XRectangles = []
+            Y = []
+            for j, point in enumerate(cluster):
+                y = point[1]
+                x = point[0]
+                XPoints.append((point, x))
+                XRectangles.append((clusterRectangles[i][j], x))
+                Y.append(y)
+            clusterPointsCopy = sorted(XPoints, key=lambda x: x[1]) # Reordenamos los puntos para que sean de izquierda a derecha en función del eje x
+            clusterRectanglesCopy = sorted(XRectangles, key=lambda x: x[1]) # Reordenamos los rectangulos para que sean de izquierda a derecha en función del eje x
+            clusterPointsCopia = []
+            clusterRectanglesCopia = []
+            for value in clusterPointsCopy:
+                point = value[0]
+                clusterPointsCopia.append(point) # Copia del cluster que contiene sólo los puntos en lugar de la tupla
+            meansPoints.append((clusterPointsCopia, np.mean(np.array(Y)))) # Almacenamos en una lista la tupla del cluster con la media de todos los puntos del eje y
+            for value in clusterRectanglesCopy:
+                point = value[0]
+                clusterRectanglesCopia.append(point) # Copia del cluster que contiene sólo los rectangulos en lugar de la tupla
+            meansRectangles.append((clusterRectanglesCopia, np.mean(np.array(Y)))) # Almacenamos en una lista la tupla del cluster con la media de todos los rectangulos del eje y
+        meansPoints = sorted(meansPoints, key=lambda x: x[1]) # Reordenamos en funcion de la media del eje y
+        meansRectangles = sorted(meansRectangles, key=lambda x: x[1])
+        # Transformamos la lista de tuplas a la lista de los clusters
+        for means in meansPoints:
+            reorderedPoints.append(means[0])
+        for means in meansRectangles:
+            reorderedRectangles.append(means[0])
+        return reorderedPoints, reorderedRectangles
 
     """
     Dibuja las líneas, los recuadros y puntos detectados
