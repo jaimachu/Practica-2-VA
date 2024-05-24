@@ -17,7 +17,7 @@ class LdaNormalBayesClassifier(OCRClassifier):
 
     def training(self):
         self.classifier = cv2.ml.NormalBayesClassifier_create()
-        self.classifier.train(self.X_reduced.astype(np.float32), cv2.ml.ROW_SAMPLE, self.y.astype(np.int32))
+        self.classifier.train(self.CR.astype(np.float32), cv2.ml.ROW_SAMPLE, self.E.astype(np.int32))
     
     def predicting(self):
         _, predicted_label = self.classifier.predict(self.features_reduced.astype(np.float32))

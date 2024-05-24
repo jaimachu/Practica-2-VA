@@ -192,7 +192,7 @@ class MainPanelsOCR:
                 w = w+10
                 h = h+10
                 newRectangle = (x,y,w,h)
-                clusterIncreased.append(newRectangle)
+                clusterIncreased.append(rectangle)
             clusterRectanglesIncreased.append(clusterIncreased)
         return clusterRectanglesIncreased
 
@@ -266,7 +266,7 @@ class MainPanelsOCR:
         for detection in detections:
             character = detection[0]
             point = detection[1]
-            imagen_con_texto = cv2.putText(img, character, point, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-        cv2.imshow("Centros detectados", img)
+            imagen_con_texto = cv2.putText(img, character, point, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        cv2.imshow("Centros detectados", imagen_con_texto)
         cv2.waitKey(0)
         cv2.destroyAllWindows()

@@ -11,7 +11,7 @@ class KNNClassifier(OCRClassifier):
         self.classifier = KNeighborsClassifier(n_neighbors=self.n_neighbors)
 
     def training(self):
-        self.classifier.fit(self.X_reduced, self.y)
+        self.classifier.fit(self.CR, self.E)
 
     def predicting(self):
         predicted_label = self.classifier.predict(self.features_reduced)

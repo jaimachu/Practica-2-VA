@@ -157,6 +157,7 @@ if __name__ == "__main__":
                 count = count + 1
 
     # Detect characters in the pannels
+    """
     pannelsDetector = MainPanelsOCR()
     for file in os.listdir("test_ocr_panels/"):
         clusterRectangles, clusterCenters, lines = pannelsDetector.obtainRegionsDetected("test_ocr_panels/"+file)
@@ -173,5 +174,21 @@ if __name__ == "__main__":
                 point[1] = point[1] - 10
                 labels.append((label, point))
         image = pannelsDetector.drawDetection("test_ocr_panels/"+file, clusterCenters, clusterRectangles, lines)
-        cv2.imwrite("detected/test_ocr_panels/"+file, image)
+        cv2.imwrite("detected/"+file, image)
         #pannelsDetector.drawCharsDetected(labels, img)
+    """
+    pannelsDetector = MainPanelsOCR()
+    clusterRectangles, clusterCenters, lines = pannelsDetector.obtainRegionsDetected("test_ocr_panels/00006_0.png")
+    img = cv2.imread("test_ocr_panels/00064_0.png")
+    clases = []
+    labels = []
+    for i, cluster in enumerate(clusterRectangles):
+        for j, rectangle in enumerate(cluster):
+            x, y, w, h = rectangle
+            imgChar = img[y:y+h, x:x+w]
+            label = chr(classifier.predict(imgChar))
+            point = clusterCenters[i][j]
+            point[0] = point[0] - 10
+            point[1] = point[1] - 10
+            labels.append((label, point))
+    pannelsDetector.drawCharsDetected(labels, img)

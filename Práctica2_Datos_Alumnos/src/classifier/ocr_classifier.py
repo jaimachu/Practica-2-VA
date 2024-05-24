@@ -55,18 +55,26 @@ class OCRClassifier(ABC):
         # Convert to grayscale if not already
         if len(img.shape) == 3:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 25, 2)
+            img = cv2.copyMakeBorder(img, top=20, bottom=20, left=20, right=20, borderType=cv2.BORDER_CONSTANT, value=[0, 0, 0])
+            kernel = np.ones((2, 2), np.uint8)
+            #img = cv2.erode(img, kernel, iterations=1)
+            img = 255 - img
+            img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_AREA)
+            
+        else:
 
-        # Apply adaptive thresholding
-        img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
 
-        # Find contours and get the bounding box
-        contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if contours:
-            x, y, w, h = cv2.boundingRect(contours[0])
-            img = img[y:y+h, x:x+w]
+            # Apply adaptive thresholding
+            img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
 
-        # Resize to a fixed size (25x25 pixels)
-        img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_AREA)
+            # Find contours and get the bounding box
+            contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            if contours:
+                x, y, w, h = cv2.boundingRect(contours[0])
+                img = img[y:y+h, x:x+w]
+            # Resize to a fixed size (25x25 pixels) 
+            img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_AREA)
 
         return img
 
@@ -110,8 +118,8 @@ class OCRClassifier(ABC):
         """
 
         # Initialize lists to store features and labels
-        self.X = []
-        self.y = []
+        self.C = []
+        self.E = []
 
         # Extract features from each image and its corresponding label
         for char, images in images_dict.items():
@@ -123,16 +131,16 @@ class OCRClassifier(ABC):
                 features = self.extract_features(processed_img)
 
                 # Append features and label to X and y
-                self.X.append(features)
-                self.y.append(ord(char[0]))
+                self.C.append(features)
+                self.E.append(ord(char[0]))
 
         # Convert lists to numpy arrays
-        self.X = np.array(self.X)
-        self.y = np.array(self.y)
+        self.C = np.array(self.C)
+        self.E = np.array(self.E)
 
         # Perform LDA training
         self.lda = LinearDiscriminantAnalysis()
-        self.X_reduced = self.lda.fit_transform(self.X, self.y)
+        self.CR = self.lda.fit_transform(self.C, self.E)
 
         # Train the classifier with the reduced features)
         self.training()
