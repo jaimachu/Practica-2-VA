@@ -48,25 +48,32 @@ class OCRClassifier(ABC):
     def preprocess_image(self, img):
         """
         Preprocess the input image (e.g., thresholding, resizing).
-
         :img Input image
         """
-
-        # Convert to grayscale if not already
         if len(img.shape) == 3:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = cv2.copyMakeBorder(img, top=25, bottom=25, left=25, right=25, borderType=cv2.BORDER_CONSTANT, value=[0, 0, 0])
+            img = 255 - img
+            kernel = np.ones((2, 2), np.uint8)
+            img = cv2.erode(img, kernel, iterations=1)
 
-        # Apply adaptive thresholding
-        img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+        # Apply Gaussian Blur to reduce noise
+        img = cv2.GaussianBlur(img, (5, 5), 0)
 
-        # Find contours and get the bounding box
+        #_, img = cv2.threshold(img, 160, 255, cv2.THRESH_BINARY)
+        img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
+
+        kernel = np.ones((3, 3), np.uint8)
+        img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+        img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+
         contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         if contours:
             x, y, w, h = cv2.boundingRect(contours[0])
             img = img[y:y+h, x:x+w]
 
-        # Resize to a fixed size (25x25 pixels)
         img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_AREA)
+        img = cv2.normalize(img, None, 0, 255, cv2.NORM_MINMAX)
 
         return img
 
