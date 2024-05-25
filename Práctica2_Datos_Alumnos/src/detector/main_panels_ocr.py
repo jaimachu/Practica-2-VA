@@ -28,10 +28,12 @@ class MainPanelsOCR:
     """
     def umbraliceImage(self, pathImagen):
         image = cv2.imread(pathImagen, 0)
-        imageUmbralice = cv2.adaptiveThreshold(image,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,11,3)
-        contours, _ = cv2.findContours(imageUmbralice, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        imageContours = np.zeros_like(image) # Cargamos una imagen en negro donde vamos a dibujar los contornos
-        cv2.drawContours(imageContours, contours, -1, (255, 255, 255), 1)
+        blur = cv2.GaussianBlur(image, (5, 5), 0)
+        thresh = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C, 
+                                    cv2.THRESH_BINARY_INV, 17, 4)
+        contornos, _ = cv2.findContours(thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        imagen_negra = np.zeros_like(image)
+        imageContours = cv2.drawContours(imagen_negra, contornos, -1, (255), 1)
         return imageContours
 
     """
@@ -40,12 +42,12 @@ class MainPanelsOCR:
     def mser(self, imageUmbralice):
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2,2))
         imageUmbralice = cv2.dilate(imageUmbralice, kernel)
-        mser = cv2.MSER_create(delta=5, max_variation=0.8, min_area=50, max_area=200)
+        mser = cv2.MSER_create(delta=5, max_variation=0.8, min_area=50, max_area=500)
         polygons, _ = mser.detectRegions(imageUmbralice)
         rectangles = []
         for p in polygons:
             x, y, w, h = cv2.boundingRect(p)
-            if (h / w > 0.9 and h / w <= 1.9) or (h / w > 2 and h / w <= 5):
+            if (h / w > 1.0 and h / w <= 1.9) or (h / w > 2 and h / w <= 3.5):
                 rectangles.append((x,y,w,h))
         return rectangles
 
@@ -127,7 +129,11 @@ class MainPanelsOCR:
             Y = np.array([p[1] for p in remaining_points])
             
             ransac = RANSACRegressor(min_samples=min_samples, residual_threshold=residual_threshold)
-            ransac.fit(X, Y)
+            try:
+                ransac.fit(X, Y)
+            except ValueError as e:
+                print(f"RANSAC error: {e}")
+                break
             
             inliers_mask = ransac.inlier_mask_
             outliers_mask = np.logical_not(inliers_mask)

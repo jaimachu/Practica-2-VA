@@ -178,6 +178,7 @@ if __name__ == "__main__":
     plt.show()
 
     # Detect characters in the pannels
+    
     pannelsDetector = MainPanelsOCR()
     with open("resultado.txt", "w", encoding="utf-8") as archive:
         for file in os.listdir("test_ocr_panels/"):
@@ -204,7 +205,7 @@ if __name__ == "__main__":
             cv2.imwrite("detected/"+file, image) # ACTIVAR SI QUEREMOS VER LAS DETECCIONES SOBRE LAS IMAGENES EN UNA CARPETA
     """
     pannelsDetector = MainPanelsOCR()
-    clusterRectangles, clusterCenters, lines = pannelsDetector.obtainRegionsDetected("test_ocr_panels/00040_0.png")
+    clusterRectangles, clusterCenters, lines = pannelsDetector.obtainRegionsDetected("test_ocr_panels/00024_0.png")
     img = cv2.imread("test_ocr_panels/00040_0.png")
     clases = []
     labels = []
@@ -218,4 +219,6 @@ if __name__ == "__main__":
             point[1] = point[1] - 10
             labels.append((label, point))
     pannelsDetector.drawCharsDetected(labels, img)
+    image = pannelsDetector.drawDetection("test_ocr_panels/00024_0.png", clusterCenters, clusterRectangles, lines)
+    cv2.imwrite("detected/00024_0.png", image)
     """
