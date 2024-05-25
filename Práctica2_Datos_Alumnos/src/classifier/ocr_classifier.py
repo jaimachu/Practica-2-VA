@@ -54,8 +54,8 @@ class OCRClassifier(ABC):
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             img = cv2.copyMakeBorder(img, top=25, bottom=25, left=25, right=25, borderType=cv2.BORDER_CONSTANT, value=[0, 0, 0])
             img = 255 - img
-            kernel = np.ones((2, 2), np.uint8)
-            img = cv2.erode(img, kernel, iterations=1)
+            #kernel = np.ones((2, 2), np.uint8)
+            #img = cv2.erode(img, kernel, iterations=1)
 
         # Apply Gaussian Blur to reduce noise
         img = cv2.GaussianBlur(img, (5, 5), 0)
@@ -117,8 +117,8 @@ class OCRClassifier(ABC):
         """
 
         # Initialize lists to store features and labels
-        self.X = []
-        self.y = []
+        self.C = []
+        self.E = []
 
         # Extract features from each image and its corresponding label
         for char, images in images_dict.items():
@@ -130,16 +130,16 @@ class OCRClassifier(ABC):
                 features = self.extract_features(processed_img)
 
                 # Append features and label to X and y
-                self.X.append(features)
-                self.y.append(ord(char[0]))
+                self.C.append(features)
+                self.E.append(ord(char[0]))
 
         # Convert lists to numpy arrays
-        self.X = np.array(self.X)
-        self.y = np.array(self.y)
+        self.C = np.array(self.C)
+        self.E = np.array(self.E)
 
         # Perform LDA training
         self.lda = LinearDiscriminantAnalysis()
-        self.X_reduced = self.lda.fit_transform(self.X, self.y)
+        self.CR = self.lda.fit_transform(self.C, self.E)
 
         # Train the classifier with the reduced features)
         self.training()
