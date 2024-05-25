@@ -10,11 +10,17 @@ from classifier.lda_normal_hog_bayes_classifier import LdaNormalHogBayesClassifi
 from classifier.lda_normal_bayes_classifier import LdaNormalBayesClassifier
 from classifier.knn_classifier import KNNClassifier
 from detector.main_panels_ocr import MainPanelsOCR
+import random
 
 def load_images_from_folder(folder):
     # Returns a dictionary where keys are class labels and values are lists of images.
+    save_probability = 0.3
     images_dict = {}
+    print(len(folder))
+    i = 0
     for label in os.listdir(folder):
+        i = i+1
+        print(i)
         label_folder = os.path.join(folder, label)
         if os.path.isdir(label_folder):
             # Check if it is a folder of numbers
@@ -23,8 +29,10 @@ def load_images_from_folder(folder):
                 for filename in os.listdir(label_folder):
                     img_path = os.path.join(label_folder, filename)
                     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
-                    if img is not None:
+                    imgp = cv2.imread(img_path, 1)
+                    if img is not None and (random.random() < save_probability):
                         images.append(img)
+                        images+[img2 for img2 in augment_image(imgp)]
                 images_dict[label] = images
             # Check if it is a folder of letters (Mayusculas or minusculas)
             else:
@@ -35,10 +43,36 @@ def load_images_from_folder(folder):
                         for filename in os.listdir(sublabel_folder):
                             img_path = os.path.join(sublabel_folder, filename)
                             img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
-                            if img is not None:
+                            imgp = cv2.imread(img_path, 1)
+                            if img is not None and (random.random() < save_probability):
                                 images.append(img)
+                                images+[img2 for img2 in augment_image(imgp)]
                         images_dict[sublabel] = images
     return images_dict
+
+def augment_image(image, rotation_angles=[90, 180], zoom_ranges=[1., 3., 5]):
+    augmented_images = []
+
+    for angle in rotation_angles:
+        rotated_image = np.rot90(image, k=angle // 90)
+        rotated_image = rotated_image if rotated_image.shape[-1] == 1 else cv2.cvtColor(rotated_image, cv2.COLOR_BGR2GRAY)
+        augmented_images.append(rotated_image)
+
+    for zoom_range in zoom_ranges:
+        zoom = 1 + zoom_range
+        new_size = [int(image.shape[0] * zoom), int(image.shape[1] * zoom)]
+        zoomed_image = cv2.resize(image, (new_size[1], new_size[0]), interpolation=cv2.INTER_LINEAR)
+        
+        start_x = (zoomed_image.shape[1] - image.shape[1]) // 2
+        start_y = (zoomed_image.shape[0] - image.shape[0]) // 2
+        end_x = start_x + image.shape[1]
+        end_y = start_y + image.shape[0]
+        crop_image = zoomed_image[start_y:end_y, start_x:end_x]
+        
+        crop_image = crop_image if crop_image.shape[-1] == 1 else cv2.cvtColor(crop_image, cv2.COLOR_BGR2GRAY)
+        augmented_images.append(crop_image)
+        
+    return augmented_images
 
 def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.get_cmap('Blues')):
     '''

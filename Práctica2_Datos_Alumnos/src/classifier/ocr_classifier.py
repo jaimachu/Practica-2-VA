@@ -34,7 +34,7 @@ class OCRClassifier(ABC):
                 responses.append(self.char2label(key))
 
         return responses    
-    
+
     def extract_features(self, img):
         """
         Extract features from the input image.
@@ -63,7 +63,6 @@ class OCRClassifier(ABC):
             img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_CUBIC)
             
         else:
-
 
             # Apply adaptive thresholding
             img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
