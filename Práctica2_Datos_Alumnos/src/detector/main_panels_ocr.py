@@ -241,19 +241,20 @@ class MainPanelsOCR:
     """
     def drawDetection(self, pathImage, clusterPoints, clusterRectangles, lines):
         image = cv2.imread(pathImage)
-        for cluster in clusterPoints:
-            color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-            for center in cluster:
-                cv2.circle(image, (center[0], center[1]), radius=1, color=color, thickness=2)
-        for cluster in clusterRectangles:
-            for rectangle in cluster:
-                x, y, w, h = rectangle
-                cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 1)
+        colors = []
         for line in lines:
             color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            colors.append(color)
             start_point = line[0]
             end_point = line[1]
             cv2.line(image, start_point, end_point, color=color, thickness=2)
+        for i, cluster in enumerate(clusterRectangles):
+            color = colors[i]
+            for rectangle in cluster:
+                x, y, w, h = rectangle
+                center = (x + (w//2), y + (h//2))
+                cv2.rectangle(image, (x, y), (x + w, y + h), color, 1)
+                cv2.circle(image, (center[0], center[1]), radius=1, color=color, thickness=2)
         return image
         #cv2.imshow("Centros detectados", image)
         #cv2.waitKey(0)

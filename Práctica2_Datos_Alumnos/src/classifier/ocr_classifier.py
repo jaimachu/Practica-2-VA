@@ -60,7 +60,7 @@ class OCRClassifier(ABC):
             kernel = np.ones((2, 2), np.uint8)
             #img = cv2.erode(img, kernel, iterations=1)
             img = 255 - img
-            img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_AREA)
+            img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_CUBIC)
             
         else:
 
@@ -74,7 +74,7 @@ class OCRClassifier(ABC):
                 x, y, w, h = cv2.boundingRect(contours[0])
                 img = img[y:y+h, x:x+w]
             # Resize to a fixed size (25x25 pixels) 
-            img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_AREA)
+            img = cv2.resize(img, (25, 25), interpolation=cv2.INTER_CUBIC)
 
         return img
 
