@@ -48,7 +48,7 @@ class MainPanelsOCR:
         rectangles = []
         for p in polygons:
             x, y, w, h = cv2.boundingRect(p)
-            if (h / w > 1.0 and h / w <= 1.9) or (h / w > 2 and h / w <= 2.5):
+            if (h / w > 1.0 and h / w <= 1.9) or (h / w > 2 and h / w <= 3.5):
                 rectangles.append((x,y,w,h))
         return rectangles
 
