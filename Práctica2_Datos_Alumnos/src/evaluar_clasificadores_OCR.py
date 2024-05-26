@@ -16,11 +16,7 @@ def load_images_from_folder(folder):
     # Returns a dictionary where keys are class labels and values are lists of images.
     save_probability = 0.0 
     images_dict = {}
-    print(len(folder))
-    i = 0
     for label in os.listdir(folder):
-        i = i+1
-        #print(i)
         label_folder = os.path.join(folder, label)
         if os.path.isdir(label_folder):
             # Check if it is a folder of numbers
@@ -212,23 +208,3 @@ if __name__ == "__main__":
             if not os.path.exists("detected/"):
                 os.makedirs("detected/")
             cv2.imwrite("detected/"+file, image) # ACTIVAR SI QUEREMOS VER LAS DETECCIONES SOBRE LAS IMAGENES EN UNA CARPETA
-            pannelsDetector.drawCharsDetected(labels, img)
-    """
-    pannelsDetector = MainPanelsOCR()
-    clusterRectangles, clusterCenters, lines = pannelsDetector.obtainRegionsDetected("test_ocr_panels/00024_0.png")
-    img = cv2.imread("test_ocr_panels/00040_0.png")
-    clases = []
-    labels = []
-    for i, cluster in enumerate(clusterRectangles):
-        for j, rectangle in enumerate(cluster):
-            x, y, w, h = rectangle
-            imgChar = img[y:y+h, x:x+w]
-            label = chr(classifier.predict(imgChar))
-            point = clusterCenters[i][j]
-            point[0] = point[0] - 10
-            point[1] = point[1] - 10
-            labels.append((label, point))
-    pannelsDetector.drawCharsDetected(labels, img)
-    image = pannelsDetector.drawDetection("test_ocr_panels/00024_0.png", clusterCenters, clusterRectangles, lines)
-    cv2.imwrite("detected/00024_0.png", image)
-    """

@@ -140,7 +140,7 @@ Para extraer las caracteristicas tenemos la función \textit{extract\_features},
 
 Dentro del metodo \textit{train} para cada una de las imagenes iremos ejecutando las dos funciones anteriores y además guardaremos el vector de caracteristicas de cada imagen en una matriz llamada \textit{C} y la clase a la que psertenece cada imagen en un vector de enteros lamado \textit{E}, para guardar el entero de las clases de letras guardaremos el valor de la tabla ascii. Una vez hemos hecho esto, convertimos la matriz y el vector en \textit{np.array} y usaremos la función \textit{fit\_transform} para encontrar la matriz de proyección y proyectar la matriz \textit{C} y convertirla en \textit{CR} y entrenaremos al clasificador con esta información. 
 
-Para la validación tenemos que vover al fichero \textit{evaluar\_clasificadores\_OCR}. Una vez hemos terminado el entrenamiento vamos a validar los resultados de este. Usando las imagenes de \textit{validation\_ocr} vamos a ver en que clases clasificas las imágenes y comprobar si acierta con la clase a la que pertenecen originalmente. Para esto vamos a usar el método \textit{predict}, en este método preprocesa la imagen, extrae las características y reduce el vector de características, y con este vector reducido clasificamos la imagen correspondiente a este vector. Después de hacer esto se nos mostrará el valor de \textit{accuracy} indicando el porcentaje de acierto y la matriz de confusión donde podremos ver que clases son las que confunde a la hora de clasificar. 
+Para la validación tenemos que vover al fichero \textit{evaluar\_clasificadores\_OCR}. Una vez hemos terminado el entrenamiento vamos a validar los resultados de este. Usando las imagenes de \textit{validation\_ocr} vamos a ver en que clases clasificas las imágenes y comprobar si acierta con la clase a la que pertenecen originalmente. Para esto vamos a usar el método \textit{predict}, en este método preprocesa la imagen, extrae las características y reduce el vector de características, y con este vector reducido clasificamos la imagen correspondiente a este vector. Después de hacer esto se nos mostrará el valor de \textit{accuracy} indicando el porcentaje de acierto, que para el clasificador base será de 0.7130, este es tras hacer algunos cambios en el preprocesado de las imágenes ya que originalmente era de 0.952 pero no reconocía bien los caracteres que le pasabamos de los carteles, haciendo este cambio mejoró a la hora de reconocer los caracteres de los carteles pero empeoró el valor de \textit{accuracy}. Tambián mostrará la matriz de confusión donde podremos ver que clases son las que confunde a la hora de clasificar. 
 Lo podemos ver en la \textbf{\hyperref[fig:normalizacion]{Fig. 1}}
 
 \begin{figure}[h]
@@ -153,7 +153,26 @@ Lo podemos ver en la \textbf{\hyperref[fig:normalizacion]{Fig. 1}}
 
 \subsection{Ejercicio 2}
 
-\subsection{LDA}
+\subsection{LDA, extraer vectores de características usando HOG}
+Para crear una variante del clasificador base vamos a calcular el vector de características de una forma distinta a cuando lo calculamos para el clasificador base. 
+
+El método \textit{extract\_features} tiene como objetivo extraer características HOG de una imagen proporcionada. HOG es una técnica para la extracción de características que es útil, especialmente, en tareas como el reconocimiento de objetos y la detección de movimiento.
+
+La función para extraer las características la podemos encontrar en el fichero \textit{lda\_normal\_hog\_bayes\_classifier}. Dentro de esta función vamos a definir los parametros para el descriptor de HOG, el tamaño de la ventana de detección que será 25x25 píxeles, el tamaño de la agrupación de celdas o bloque que será 10x10 píxeles, el desplazamiento del bloque o cuántos píxeles se desplaza la ventana para calcular el siguiente bloque, el tamaño de la celda (celda es la unidad más pequeña de la que se calculan los histogramas de gradientes) y finalmente el número de contenedores para el histograma de gradiente. 
+
+Después de definir estos parámetros creamos el descriptor y con el método \textit{compute} y usando la imagen como entrada podemos calcular las características, el resultado será una matriz que contiene los despcriptores HOG de la imagen. Finalmente con el método \textit{flatten} aplanamos la matriz y convertimos el array multidimensional en un vector unidimensional. 
+
+El resto del proceso es igual que en las imagenges anteriores. 
+
+Tras la ejecución del entrenamiento y la validación, el resultado de la \textit{accuracy} para este clasificador es de 0.728 mejorando los resultados del clasificador base. Como hemos dicho antes al hacer los cambios en el preproceado hemos conseguido mejorar la clasificación de los caracteres de los carteles pero ha empeorado el valor de validación, previamente para este clasificador era de más de 0.96. Podemos ver la matriz de confusión perteneciente a este clasificador en la  \textbf{\hyperref[fig:normalizacion]{Fig. 2}}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/matrixHOG.png}
+ 	\caption{Matriz de confusión del clasificador usando HOG}\vspace{0.5cm}
+	\label{fig:normalizacion}
+\end{figure}
+
 
 \subsubsection{KNN}
 El algoritmo \textbf{K-Nearest Neighbors (KNN)} es un método de clasificación supervisada que asigna una clase a una entrada fijándonos en las clases de sus $k$ vecinos más cercanos en un espacio de características. 
@@ -209,7 +228,7 @@ Además hay que resaltar que \textbf{KNN} tiene una gran adaptabilidad, por lo q
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\linewidth]{../../../../../../../../../Pictures/Screenshots/matrix_KNN}
+	\includegraphics[width=0.7\linewidth]{img/matrixKNN.png}
 	\caption{Matriz de confusión del clasificador KNN}
 	\label{fig:matrixknn}
 \end{figure}
