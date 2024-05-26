@@ -1,11 +1,13 @@
 \babel@toc {spanish}{}\relax 
 \contentsline {figure}{\numberline {1}{\ignorespaces Diagrama de clases}}{5}{figure.1}%
 \contentsline {figure}{\numberline {2}{\ignorespaces Matriz de confusión del clasificador base}}{7}{figure.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Matriz de confusión del clasificador KNN}}{9}{figure.3}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Proceso de normalización para la lectura de carteles}}{11}{figure.4}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Carteles detectados con MSER}}{11}{figure.5}%
-\contentsline {figure}{\numberline {6}{\ignorespaces RANSAC aplicado a los puntos detectados}}{12}{figure.6}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Cálculo y agrupación de los centros de los rectángulos mediante RANSAC}}{13}{figure.7}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Detección caracteres panel}}{14}{figure.8}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Matriz de confusión del clasificador usando HOG}}{9}{figure.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Matriz de confusión del clasificador KNN}}{11}{figure.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Proceso de normalización para la lectura de carteles}}{12}{figure.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Carteles detectados con MSER}}{12}{figure.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces RANSAC aplicado a los puntos detectados}}{13}{figure.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Cálculo y agrupación de los centros de los rectángulos mediante RANSAC}}{14}{figure.8}%
 \contentsline {figure}{\numberline {9}{\ignorespaces Detección caracteres panel}}{15}{figure.9}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Cartel clasificado}}{15}{figure.10}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Detección caracteres panel}}{16}{figure.10}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Cartel clasificado}}{16}{figure.11}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Distancia de Levenshtein}}{17}{figure.12}%

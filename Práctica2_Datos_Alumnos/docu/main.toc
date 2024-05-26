@@ -4,6 +4,6 @@
 \contentsline {subsection}{\numberline {2.1}Diseño: UML}{4}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Ejercicio 1}{5}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Ejercicio 2}{7}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}LDA}{7}{subsection.2.4}%
-\contentsline {subsubsection}{\numberline {2.4.1}KNN}{7}{subsubsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.5}Ejercicio 3}{10}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.4}LDA, extraer vectores de características usando HOG}{7}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}KNN}{8}{subsubsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.5}Ejercicio 3}{11}{subsection.2.5}%
