@@ -180,11 +180,11 @@ El algoritmo \textbf{K-Nearest Neighbors (KNN)} es un método de clasificación 
 El funcionamiento básico del KNN es el siguiente:
 
 \begin{quote}
-	\textbf{1. Selección de Vecinos:} Dado un valor de k, el algoritmo selecciona los k vecinos más cercanos a la muestra que se desea clasificar. La cercanía se mide típicamente utilizando una distancia, como la distancia Euclidiana. Otras métricas de distancia también pueden ser utilizadas, como la distancia Manhattan o la distancia de Minkowski, dependiendo de la naturaleza de los datos y el problema específico.
+	\textbf{1. Selección de Vecinos:} Dado un valor de k, el algoritmo selecciona los k vecinos más cercanos a la muestra que se desea clasificar. La cercanía se mide típicamente utilizando una distancia, como la distancia Euclidiana.
 	
 	\textbf{2. Asignación de Clase:} La clase de la muestra se determina por mayoría de votos entre los k vecinos seleccionados. La clase más frecuente entre estos vecinos se asigna a la muestra. Si hay un empate, se puede decidir la clase de la muestra de diferentes maneras, como elegir la clase del vecino más cercano.
 	
-	\textbf{3. No Paramétrico:} El KNN es un clasificador no paramétrico, lo que significa que no hace suposiciones sobre la distribución de los datos. Esto lo hace flexible y capaz de adaptarse a una variedad de problemas de clasificación.
+	\textbf{3. No Paramétrico:} El KNN es un clasificador no paramétrico, lo que significa que no hace suposiciones sobre la distribución de los datos.
 	
 \end{quote}
 
@@ -197,14 +197,14 @@ El funcionamiento básico del KNN es el siguiente:
 	\end{quote}
 	
 	\begin{quote}
-		\textbf{Selección de k:} En general, k se elige utilizando técnicas de validación cruzada. Se prueban diferentes valores de k y se selecciona el que ofrece el mejor rendimiento en el conjunto de validación.
+		\textbf{Selección de k:} En general, k se elige utilizando técnicas de validación cruzada. Se prueban diferentes valores de k y se selecciona el que ofrece el mejor rendimiento.
 	\end{quote}
 	
 \end{quote}
 
 \textbf{Resultados}
 
-El clasificador KNN con 3 vecinos alcanzó una precisión del 97\%, superando el 95\% obtenido con el clasificador base. A continuación, se presenta una comparación de los resultados:
+El clasificador KNN con 3 vecinos alcanzó una precisión del 71.3\%, superando el 72.65\% obtenido con el clasificador base. A continuación, se presenta una comparación de los resultados:
 
 \begin{quote}
 	- Precisión del Clasificador Base: 0.713\%
@@ -224,7 +224,7 @@ El clasificador \textbf{KNN} puede ofrecer mejores resultados en este contexto p
 	
 \end{quote}
 
-Además hay que resaltar que \textbf{KNN} tiene una gran adaptabilidad, por lo que puede adaptarse fácilmente a nuevas clases de caracteres sin necesidad de un retraining exhaustivo. Solo se necesita agregar nuevas muestras al conjunto de datos.
+Además hay que resaltar que \textbf{KNN} tiene una gran adaptabilidad, por lo que puede adaptarse fácilmente a nuevas clases de caracteres sin necesidad de un retraining. Solo se necesita agregar nuevas muestras al conjunto de datos.
 
 \begin{figure}[h]
 	\centering
