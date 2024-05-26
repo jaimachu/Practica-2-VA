@@ -31,8 +31,9 @@ def load_images_from_folder(folder):
                     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
                     imgp = cv2.imread(img_path, 1)
                     if img is not None and (random.random() < save_probability):
-                        images.append(img)
                         images+[img2 for img2 in augment_image(imgp)]
+                    elif img is not None:
+                        images.append(img)
                 images_dict[label] = images
             # Check if it is a folder of letters (Mayusculas or minusculas)
             else:
@@ -45,8 +46,9 @@ def load_images_from_folder(folder):
                             img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
                             imgp = cv2.imread(img_path, 1)
                             if img is not None and (random.random() < save_probability):
-                                images.append(img)
                                 images+[img2 for img2 in augment_image(imgp)]
+                            elif img is not None:
+                                images.append(img)
                         images_dict[sublabel] = images
     return images_dict
 
