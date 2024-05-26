@@ -261,9 +261,6 @@ class MainPanelsOCR:
                 cv2.rectangle(image, (x, y), (x + w, y + h), color, 1)
                 cv2.circle(image, (center[0], center[1]), radius=1, color=color, thickness=2)
         return image
-        #cv2.imshow("Centros detectados", image)
-        #cv2.waitKey(0)
-        #cv2.destroyAllWindows()
 
     """
     Dibuja los caracteres detectados
