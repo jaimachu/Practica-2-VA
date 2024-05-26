@@ -34,7 +34,7 @@ class OCRClassifier(ABC):
                 responses.append(self.char2label(key))
 
         return responses    
-    
+
     def extract_features(self, img):
         """
         Extract features from the input image.
@@ -58,11 +58,9 @@ class OCRClassifier(ABC):
         # Apply Gaussian Blur to reduce noise
         img = cv2.GaussianBlur(img, (5, 5), 0)
 
-        #_, img = cv2.threshold(img, 160, 255, cv2.THRESH_BINARY)
         img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 4)
 
         kernel = np.ones((3, 3), np.uint8)
-        #img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
         img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
 
         contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

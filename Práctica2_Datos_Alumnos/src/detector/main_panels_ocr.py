@@ -23,7 +23,6 @@ class MainPanelsOCR:
         #self.drawDetection(pathImagen, clusterCenters, rectanglesDetected, lines)
         return clusterRectangles, clusterCenters, lines
 
-
     """
     Aplica un umbralizado y obtiene los bordes
     """

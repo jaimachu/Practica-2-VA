@@ -107,6 +107,30 @@
 
 \section{Creación de la aplicación}
 \subsection{Ejercicio 1}
+\textbf{Entrenamiento y validación de clasificadores de caracteres.}
+
+Lo primero que se pide en este ejercicio es cargar y umbralizar las imágenes de los caracteres de entrenamiento, para ello hemos creado la función \textit{load\_images\_from\_folder} dentro del fichero \textit{evaluar\_clasificadores\_OCR}. El objetivo de esta función es cargar las imagenes del directorio que recibe como argumento. Se recorrerán las imágenes del directorio \textit{train\_ocr}, que es el directorio que pasamos en primer lugar, y cogerá el nombre de cada subdirectorio para crear una clave del mapa donde guardará las imagenes. Dentro del mapa, el valor asociado a cada clave será una lista de imágenes con las imágenes de los caracteres de esa clase, por ejemplo, para la clase 0 se guargará el 0 como clave del mapa y las imágenes del directorio con nombre 0, so guardarán como valor asociado a esa clave. 
+
+En el caso de las letras es distinto porque tienes una estructura de ficheros distinta. Tenemos los ficheros \textit{Mayusculas} y \textit{minusculas} y dentro de estos ficheros tenemos los subdirectorios con las imágenes de cada letra. Por esto mismo cuando iteramos sobre los ficheros de \textit{train\_ocr} comprobamos si la \textit{label}, o nombre del directorio, es un digito porque en caso de serlo solo tenemos que usar el nombre como clave y las imágenes como valor, pero en caso de no ser un digito tenemos que iterar sobre sus subdirectorios donde ya si que podremos hacer el mismo proceso que hemos hecho con los números. 
+
+La carga de las imágenes también será dentro del fichero \textit{evaluar\_clasificadores\_OCR} pero en el metodo \textit{main}. Después de hacer la carga de las imágenes de \textit{train\_ocr} también hacemos la carga de las imágenes de \textit{validation\_ocr} usando la misma función que con las anteriores.  
+
+Para el umbralizado de las imágenes tenemos la función \textit{preprocess\_image}, dentro del fichero \textit{ocr\_clasifier} la utilizaremos para todas las imágenes, entrenamiento, validación y con las de test, ya que es importante que sea lo más parecido posible para todas las imagenes. En el caso de las imágenes de test tendremos que hacer alguna operación extra para que se parezcan lo más posible a las imagenes de entrenamiento como pasarlas a grises, ampliar la imagen añadiendole pixeles en los bordes o invertirlas, el resto de operaciones si que son las mismas. Esta función se va a llamar dentro de la función \textit{train} que está dentro del mismo fichero que la anterior. 
+
+Para extraer las caracteristicas tenemos la función \textit{extract\_features}, a esta fucnión tambien la llamaremos desde \textit{train} y también se encuentra en el mismo fichero que las anteriores. Para el clasificador base esta función solo aplanará la imagen usando la función \textit{flatten}. Veremos en el ejercicio 2 que esta función cambiará para la creación de una de las variaciones del clasificador.
+
+Dentro del metodo \textit{train} para cada una de las imagenes iremos ejecutando las dos funciones anteriores y además guardaremos el vector de caracteristicas de cada imagen en una matriz llamada \textit{C} y la clase a la que psertenece cada imagen en un vector de enteros lamado \textit{E}, para guardar el entero de las clases de letras guardaremos el valor de la tabla ascii. Una vez hemos hecho esto, convertimos la matriz y el vector en \textit{np.array} y usaremos la función \textit{fit\_transform} para encontrar la matriz de proyección y proyectar la matriz \textit{C} y convertirla en \textit{CR} y entrenaremos al clasificador con esta información. 
+
+Para la validación tenemos que vover al fichero \textit{evaluar\_clasificadores\_OCR}. Una vez hemos terminado el entrenamiento vamos a validar los resultados de este. Usando las imagenes de \textit{validation\_ocr} vamos a ver en que clases clasificas las imágenes y comprobar si acierta con la clase a la que pertenecen originalmente. Para esto vamos a usar el método \textit{predict}, en este método preprocesa la imagen, extrae las características y reduce el vector de características, y con este vector reducido clasificamos la imagen correspondiente a este vector. Después de hacer esto se nos mostrará el valor de \textit{accuracy} indicando el porcentaje de acierto y la matriz de confusión donde podremos ver que clases son las que confunde a la hora de clasificar. 
+Lo podemos ver en la \textbf{\hyperref[fig:normalizacion]{Fig. 1}}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/matrixBase.png}
+ 	\caption{Matriz de confusión del clasificador base}\vspace{0.5cm}
+	\label{fig:normalizacion}
+\end{figure}
+
 
 \subsection{Ejercicio 2}
 

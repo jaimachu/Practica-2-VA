@@ -3,7 +3,6 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 def read_csv_file(file, delim=";"):
     """
 
