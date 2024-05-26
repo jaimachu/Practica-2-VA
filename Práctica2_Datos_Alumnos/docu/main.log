@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2023.5.29)  26 MAY 2024 21:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2023.5.29)  26 MAY 2024 22:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -449,7 +449,7 @@ Package hyperref Info: Link coloring ON on input line 29.
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-<images.png, id=47, 364.36125pt x 139.52126pt>
+<images.png, id=35, 364.36125pt x 139.52126pt>
 File: images.png Graphic file (type png)
 <use images.png>
 Package pdftex.def Info: images.png  used on input line 35.
@@ -477,82 +477,85 @@ LaTeX Info: Redefining \% on input line 1.
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
- [3] [4]
-<img/matrixBase.png, id=102, 1013.28563pt x 977.15062pt>
+ [3]
+<./img/UML.png, id=83, 2248.4pt x 1564.84625pt>
+File: ./img/UML.png Graphic file (type png)
+<use ./img/UML.png>
+Package pdftex.def Info: ./img/UML.png  used on input line 116.
+(pdftex.def)             Requested size: 455.24411pt x 316.83188pt.
+ [4] [5 <./img/UML.png>]
+<img/matrixBase.png, id=96, 1013.28563pt x 977.15062pt>
 File: img/matrixBase.png Graphic file (type png)
 <use img/matrixBase.png>
-Package pdftex.def Info: img/matrixBase.png  used on input line 129.
+Package pdftex.def Info: img/matrixBase.png  used on input line 148.
 (pdftex.def)             Requested size: 409.71692pt x 395.1027pt.
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[5] [6 <./img/matrixBase.png>] [7]
-<../../../../../../../../../Pictures/Screenshots/matrix_KNN.png, id=119, 948.54
+[6] [7 <./img/matrixBase.png>] [8]
+<../../../../../../../../../Pictures/Screenshots/matrix_KNN.png, id=112, 948.54
 375pt x 924.45375pt>
 File: ../../../../../../../../../Pictures/Screenshots/matrix_KNN.png Graphic fi
 le (type png)
 <use ../../../../../../../../../Pictures/Screenshots/matrix_KNN.png>
 Package pdftex.def Info: ../../../../../../../../../Pictures/Screenshots/matrix
-_KNN.png  used on input line 194.
+_KNN.png  used on input line 212.
 (pdftex.def)             Requested size: 318.66948pt x 310.57202pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 200--202
+Underfull \hbox (badness 10000) in paragraph at lines 218--220
 
  []
 
-[8 <../../../../../../../../../Pictures/Screenshots/matrix_KNN.png>] [9]
-<img/imagenUmbral.png, id=130, 639.89063pt x 138.5175pt>
+[9 <../../../../../../../../../Pictures/Screenshots/matrix_KNN.png>] [10]
+<img/imagenUmbral.png, id=123, 639.89063pt x 138.5175pt>
 File: img/imagenUmbral.png Graphic file (type png)
 <use img/imagenUmbral.png>
-Package pdftex.def Info: img/imagenUmbral.png  used on input line 205.
+Package pdftex.def Info: img/imagenUmbral.png  used on input line 223.
 (pdftex.def)             Requested size: 364.19667pt x 78.83954pt.
-<img/deteccionMSER.png, id=132, 152.82094pt x 179.16937pt>
+<img/deteccionMSER.png, id=125, 152.82094pt x 179.16937pt>
 File: img/deteccionMSER.png Graphic file (type png)
 <use img/deteccionMSER.png>
-Package pdftex.def Info: img/deteccionMSER.png  used on input line 219.
+Package pdftex.def Info: img/deteccionMSER.png  used on input line 237.
 (pdftex.def)             Requested size: 91.04742pt x 106.74515pt.
-<img/RANSAC.png, id=135, 452.13919pt x 338.31393pt>
+<img/RANSAC.png, id=128, 452.13919pt x 338.31393pt>
 File: img/RANSAC.png Graphic file (type png)
 <use img/RANSAC.png>
-Package pdftex.def Info: img/RANSAC.png  used on input line 228.
+Package pdftex.def Info: img/RANSAC.png  used on input line 246.
 (pdftex.def)             Requested size: 273.14923pt x 204.38889pt.
-<img/puntosAgrupados.png, id=137, 523.9575pt x 260.172pt>
+<img/puntosAgrupados.png, id=130, 523.9575pt x 260.172pt>
 File: img/puntosAgrupados.png Graphic file (type png)
 <use img/puntosAgrupados.png>
-Package pdftex.def Info: img/puntosAgrupados.png  used on input line 235.
+Package pdftex.def Info: img/puntosAgrupados.png  used on input line 253.
 (pdftex.def)             Requested size: 273.14923pt x 135.63559pt.
-<img/detectionPanel.png, id=139, 150.5625pt x 179.92218pt>
+<img/detectionPanel.png, id=132, 150.5625pt x 179.92218pt>
 File: img/detectionPanel.png Graphic file (type png)
 <use img/detectionPanel.png>
-Package pdftex.def Info: img/detectionPanel.png  used on input line 242.
+Package pdftex.def Info: img/detectionPanel.png  used on input line 260.
 (pdftex.def)             Requested size: 91.04742pt x 108.8052pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 216--248
+Underfull \hbox (badness 10000) in paragraph at lines 234--266
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 216--248
+Underfull \hbox (badness 10000) in paragraph at lines 234--266
 
  []
 
-[10 <./img/imagenUmbral.png> <./img/deteccionMSER.png>] [11 <./img/RANSAC.png>]
+[11 <./img/imagenUmbral.png> <./img/deteccionMSER.png>] [12 <./img/RANSAC.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[12 <./img/puntosAgrupados.png>] [13 <./img/detectionPanel.png>]
-<img/imgNorm.png, id=163, 451.6875pt x 237.13594pt>
+[13 <./img/puntosAgrupados.png>] [14 <./img/detectionPanel.png>]
+<img/imgNorm.png, id=156, 451.6875pt x 237.13594pt>
 File: img/imgNorm.png Graphic file (type png)
 <use img/imgNorm.png>
-Package pdftex.def Info: img/imgNorm.png  used on input line 251.
+Package pdftex.def Info: img/imgNorm.png  used on input line 269.
 (pdftex.def)             Requested size: 273.14923pt x 143.41159pt.
-<img/imagenClasificada.png, id=165, 149.8097pt x 178.41656pt>
+<img/imagenClasificada.png, id=158, 149.8097pt x 178.41656pt>
 File: img/imagenClasificada.png Graphic file (type png)
 <use img/imagenClasificada.png>
-Package pdftex.def Info: img/imagenClasificada.png  used on input line 258.
+Package pdftex.def Info: img/imagenClasificada.png  used on input line 277.
 (pdftex.def)             Requested size: 136.57462pt x 162.66693pt.
- [14 <./img/imgNorm.png> <./img/imagenClasificada.png>] (main.aux
+ [15 <./img/imgNorm.png> <./img/imagenClasificada.png>] (main.aux
 LaTeX Info: Redefining \. on input line 22.
 LaTeX Info: Redefining \% on input line 22.
 )
@@ -560,23 +563,23 @@ LaTeX Info: Redefining \% on input line 22.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D0565D5B23A6FD7613045D12D19C9B11;1360.
+(rerunfilecheck)             Checksum: 1341C61D1A5A72E3250489C1824C2ABE;906.
  ) 
 Here is how much of TeX's memory you used:
- 11488 strings out of 476331
- 180806 string characters out of 5797571
+ 11493 strings out of 476331
+ 180873 string characters out of 5797571
  1865660 words of memory out of 5000000
- 31721 multiletter control sequences out of 15000+600000
+ 31725 multiletter control sequences out of 15000+600000
  538668 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,7n,76p,1533b,524s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,7n,76p,1533b,520s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Progra
 m Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/
 type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri
 8a.pfb>
-Output written on main.pdf (15 pages, 1151129 bytes).
+Output written on main.pdf (16 pages, 1273151 bytes).
 PDF statistics:
- 200 PDF objects out of 1000 (max. 8388607)
- 35 named destinations out of 1000 (max. 500000)
- 139 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 193 PDF objects out of 1000 (max. 8388607)
+ 34 named destinations out of 1000 (max. 500000)
+ 120 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -90,22 +90,41 @@
 % 1. Introducción
 %-------------------------------------------------------
 \section{Introducción}
-%-------------------------------------------------------
-% 2. OBJETIVOS Y METODOLOGIAS
-%-------------------------------------------------------
-\section{Objetivos y metodología}
+El reconocimiento óptico de caracteres (OCR) es una tecnología que permite convertir imágenes de texto en datos editables. En esta práctica, desarrollaremos un sistema OCR para leer paneles informativos de autopistas, abordando desde la detección y clasificación de caracteres hasta la lectura completa del texto.
 
-\subsection{Descripción del problema}
+El proyecto se divide en cuatro ejercicios:
 
-\subsection{Objetivos}
-3 pag.
-\subsection{Tecnologías}
+\begin{quote}
+	\textbf{1. Entrenamiento y validación de clasificadores de caracteres:} Implementación y evaluación de un clasificador multiclase utilizando un conjunto de imágenes de entrenamiento.
+	
+	\textbf{2. Exploración de alternativas para el reconocimiento:} Comparación de técnicas de clasificación y reducción de dimensionalidad, incluyendo PCA y KNN.
+
+	\textbf{3. Lectura automática de paneles recortados:} Detección y alineación de caracteres en paneles recortados, y aplicación del mejor clasificador para leer el texto.
+	
+\end{quote}
+
+
+Utilizaremos \textbf{Python} y las bibliotecas \textbf{scikit-learn} y \textbf{OpenCV} en un entorno como \textbf{Jupyter Notebook} o \textbf{Visual Studio Code}.
 
 %-------------------------------------------------------
 % 3. DESCRIPCIÓN INFORMMATICA
 %-------------------------------------------------------
-
 \section{Creación de la aplicación}
+\subsection{Diseño: UML}
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{./img/UML.png}
+	\caption{Diagrama de clases}
+	\label{fig:uml}
+\end{figure}
+
+Como estructura general del proyecto tenemos una clase \textit{main\_panels\_ocr} que se encarga de las fases de entrenamiento, validación y test, con carácteres extraidos de paneles, todo esto con ayuda de \textit{evaluar\_clasificadores\_OCR}.
+
+Respecto a las clases relacionadas con los clasificadores tenemos a \textit{ocr\_classifier}, encargado de los métodos generales para todas las clases. A partir de aquí, \textit{lda\_normal\_bayes\_classifier} está como nuestro clasificador base y \textit{knn\_classifier} como primera alternativa a nivel de clasificador. 
+
+Respecto a la segunda alternativa, hemos decidido partir de el clasificador base, y simplemente hemos decido cambiar el método de extracción de características, haciendo uso de HOG. Nótese que como solo cambia el método de extracción heredamos de \textit{ida\_normal\_bayes\_classifier}  y sobrescribimos el método.
+
+
 \subsection{Ejercicio 1}
 \textbf{Entrenamiento y validación de clasificadores de caracteres.}
 
@@ -169,9 +188,9 @@ El funcionamiento básico del KNN es el siguiente:
 El clasificador KNN con 3 vecinos alcanzó una precisión del 97\%, superando el 95\% obtenido con el clasificador base. A continuación, se presenta una comparación de los resultados:
 
 \begin{quote}
-	- Precisión del Clasificador Base: 95\%
+	- Precisión del Clasificador Base: 0.713\%
 	
-	- Precisión del Clasificador KNN: 97\%
+	- Precisión del Clasificador KNN: 0.7265\%
 \end{quote}
 
 Además, se generó una matriz de confusión que muestra la distribución de errores y aciertos del clasificador KNN. Esta matriz ayuda a identificar las clases que se confunden con mayor frecuencia, proporcionando información valiosa para futuras mejoras.
