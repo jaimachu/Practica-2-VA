@@ -1,0 +1,10 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces Matriz de confusión del clasificador base}}{6}{figure.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Matriz de confusión del clasificador KNN}}{8}{figure.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Proceso de normalización para la lectura de carteles}}{10}{figure.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Carteles detectados con MSER}}{10}{figure.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces RANSAC aplicado a los puntos detectados}}{11}{figure.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Cálculo y agrupación de los centros de los rectángulos mediante RANSAC}}{12}{figure.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Detección caracteres panel}}{13}{figure.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Detección caracteres panel}}{14}{figure.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Cartel clasificado}}{14}{figure.9}%

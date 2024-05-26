@@ -14,7 +14,7 @@ import random
 
 def load_images_from_folder(folder):
     # Returns a dictionary where keys are class labels and values are lists of images.
-    save_probability = 0.0
+    save_probability = 0.0 
     images_dict = {}
     print(len(folder))
     i = 0

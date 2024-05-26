@@ -134,6 +134,67 @@ Lo podemos ver en la \textbf{\hyperref[fig:normalizacion]{Fig. 1}}
 
 \subsection{Ejercicio 2}
 
+\subsection{LDA}
+
+\subsubsection{KNN}
+El algoritmo \textbf{K-Nearest Neighbors (KNN)} es un método de clasificación supervisada que asigna una clase a una entrada fijándonos en las clases de sus $k$ vecinos más cercanos en un espacio de características. 
+
+El funcionamiento básico del KNN es el siguiente:
+
+\begin{quote}
+	\textbf{1. Selección de Vecinos:} Dado un valor de k, el algoritmo selecciona los k vecinos más cercanos a la muestra que se desea clasificar. La cercanía se mide típicamente utilizando una distancia, como la distancia Euclidiana. Otras métricas de distancia también pueden ser utilizadas, como la distancia Manhattan o la distancia de Minkowski, dependiendo de la naturaleza de los datos y el problema específico.
+	
+	\textbf{2. Asignación de Clase:} La clase de la muestra se determina por mayoría de votos entre los k vecinos seleccionados. La clase más frecuente entre estos vecinos se asigna a la muestra. Si hay un empate, se puede decidir la clase de la muestra de diferentes maneras, como elegir la clase del vecino más cercano.
+	
+	\textbf{3. No Paramétrico:} El KNN es un clasificador no paramétrico, lo que significa que no hace suposiciones sobre la distribución de los datos. Esto lo hace flexible y capaz de adaptarse a una variedad de problemas de clasificación.
+	
+\end{quote}
+
+\textbf{Consideraciones para la Implementación}
+
+\begin{quote}
+	\textbf{Elección del valor de $k$:}
+	\begin{quote}
+		\textbf{Influencia de k:} El valor de k tiene una gran influencia en el rendimiento del clasificador. Un k muy pequeño puede hacer que el modelo sea sensible al ruido en los datos, mientras que un k muy grande puede hacer que el modelo sea demasiado general y no capture bien las peculiaridades de las diferentes clases.
+	\end{quote}
+	
+	\begin{quote}
+		\textbf{Selección de k:} En general, k se elige utilizando técnicas de validación cruzada. Se prueban diferentes valores de k y se selecciona el que ofrece el mejor rendimiento en el conjunto de validación.
+	\end{quote}
+	
+\end{quote}
+
+\textbf{Resultados}
+
+El clasificador KNN con 3 vecinos alcanzó una precisión del 97\%, superando el 95\% obtenido con el clasificador base. A continuación, se presenta una comparación de los resultados:
+
+\begin{quote}
+	- Precisión del Clasificador Base: 95\%
+	
+	- Precisión del Clasificador KNN: 97\%
+\end{quote}
+
+Además, se generó una matriz de confusión que muestra la distribución de errores y aciertos del clasificador KNN. Esta matriz ayuda a identificar las clases que se confunden con mayor frecuencia, proporcionando información valiosa para futuras mejoras.
+
+\textbf{Razones de mejora}
+
+El clasificador \textbf{KNN} puede ofrecer mejores resultados en este contexto por varias razones:
+\begin{quote}
+	\textbf{1. Robustez ante Variabilidad y Ruido:} Dado que KNN toma en cuenta múltiples vecinos, es menos sensible a pequeñas variaciones y ruido en los datos. Esto es especialmente útil en el reconocimiento de caracteres donde puede haber distorsiones y ruido en las imágenes.
+
+	\textbf{2. Simplicidad y Eficacia:} KNN es simple de implementar y puede ser muy efectivo cuando se dispone de una cantidad adecuada de datos de entrenamiento. 
+	
+\end{quote}
+
+Además hay que resaltar que \textbf{KNN} tiene una gran adaptabilidad, por lo que puede adaptarse fácilmente a nuevas clases de caracteres sin necesidad de un retraining exhaustivo. Solo se necesita agregar nuevas muestras al conjunto de datos.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{../../../../../../../../../Pictures/Screenshots/matrix_KNN}
+	\caption{Matriz de confusión del clasificador KNN}
+	\label{fig:matrixknn}
+\end{figure}
+
 \subsection{Ejercicio 3}
 Una vez hemos conseguido entrenar un clasificador de caracteres y quedarnos con el que mejor resultados da, vamos a aplicar ese modelo a un caso más real que sería a la hora de detectar carteles de una autopista y clasificar los caracteres que se encuentran en el panel. La clase encargada de realizar toda esta parte de la lectura automática de los caracteres es \textit{main\_panels\_ocr.py}, donde llamando al método \textit{obtainRegionsDetected} podemos obtener los parámetros necesarios para la realización de este apartado. \\\\
 Las imágenes con las que queremos realizar esta lectura son de unos carteles recortados de forma, orientación y relación de aspecto variable. Nuestro primer paso consiste en poder detectar los caracteres que luego vamos a clasificar. Para ello previamente vamos a normalizar el panel que le entre a este detector, donde primero cargaremos la imagen en escala de grises, aplicaremos un umbralizado adaptativo aplicando la Gaussiana y por último extraemos los bordes de la imagen umbralizada. El proceso que se ha seguido se puede ver a partir de la \textbf{\hyperref[fig:normalizacion]{Fig. 1}}
@@ -191,10 +252,12 @@ El paso siguiente consiste es poder agrupar los caracteres en palabras. Por ejem
 	\label{fig:imagenDetectada}
 \end{figure}
 La normalización consiste en pasarla a una escala de grises, añadirle un padding para que el carácter se muestre más alejado, se invierte la imagen, se le aplica un suavizado Gaussiano, se umbraliza la imagen para tener una imagen con dos valores de píxeles y finalmente se le aplica una apertura para reducir el ruido. Después de esta normalización se redimensiona la imagen a una escala de 25x25 para que tengan el mismo formato que las imágenes de entrenamiento. Aunque ahora los caracteres que le pasamos al clasificador son muy similares a como fue entrenado el modelo, sigue dando resultados erróneos, como se puede ver en la \textbf{\hyperref[fig:imagenClasificada]{Fig. 7}}.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.3\linewidth]{img/imagenClasificada.png}
  	\caption{Cartel clasificado}\
 	\label{fig:imagenClasificada}
 \end{figure}
+
 \end{document}
