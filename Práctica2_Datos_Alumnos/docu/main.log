@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2023.5.29)  26 MAY 2024 23:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2023.5.29)  26 MAY 2024 23:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -582,12 +582,18 @@ LaTeX Info: Redefining \% on input line 22.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D42D99801A50A55621015047DB59F227;1167.
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: D42D99801A50A55621015047DB59F227;1167
+(rerunfilecheck)             After:  39FB028791323B7ED076F1EC28CB1AF5;1263.
  ) 
 Here is how much of TeX's memory you used:
- 11507 strings out of 476331
- 180645 string characters out of 5797571
+ 11508 strings out of 476331
+ 180654 string characters out of 5797571
  1865660 words of memory out of 5000000
  31734 multiletter control sequences out of 15000+600000
  538668 words of font info for 64 fonts, out of 8000000 for 9000
@@ -597,9 +603,9 @@ Here is how much of TeX's memory you used:
 m Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/
 type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri
 8a.pfb>
-Output written on main.pdf (18 pages, 1709229 bytes).
+Output written on main.pdf (18 pages, 1709924 bytes).
 PDF statistics:
- 216 PDF objects out of 1000 (max. 8388607)
- 38 named destinations out of 1000 (max. 500000)
+ 217 PDF objects out of 1000 (max. 8388607)
+ 39 named destinations out of 1000 (max. 500000)
  130 words of extra memory for PDF output out of 10000 (max. 10000000)
 

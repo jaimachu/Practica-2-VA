@@ -306,4 +306,9 @@ Podemos probar de otra forma la eficiencia de nuestro algoritmo y es mediante el
 	\label{fig:levenshtein}
 \end{figure}
 \\Vemos que hay algunos paneles que se encuentran por debajo de 2 e incluso alguno con 0. Sin embargo, pese a tener unas distancias bastante buenas, el texto generado se asemeja muy poco con el texto real. Cabe destacar que para generar las salidas del texto se ha usado el detector Bayesiano normal con Hogh que tiene una precisión del 0.72.
+
+\section{Conclusión}
+En esta práctica, desarrollamos un sistema OCR para leer paneles informativos en autopistas. Probamos varios clasificadores, destacando la versión con HOG, que alcanzó una precisión del 72.8\% en el conjunto de entrenamiento. Sin embargo, al aplicar el sistema a paneles reales, los resultados fueron menos precisos debido a la variabilidad de los caracteres y las condiciones del entorno.
+
+A pesar de un preprocesamiento exhaustivo, los errores en la clasificación indicaron la necesidad de seguir mejorando los métodos utilizados. En general, aunque se lograron avances significativos, es necesario continuar refinando el sistema para obtener una mayor precisión en aplicaciones prácticas.
 \end{document}
